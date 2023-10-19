@@ -30,7 +30,7 @@ class DBHelper {
 
   _onCreate(Database db, int version) async {
     await db.execute(
-        'CREATE TABLE cart (id INTEGER PRIMARY KEY , title TEXT,subtitle TEXT, date TEXT, priority TEXT)');
+        'CREATE TABLE cart (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT,subtitle TEXT, date TEXT, priority TEXT)');
   }
 
   Future<Note> insertData(Note note) async {

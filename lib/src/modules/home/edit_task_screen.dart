@@ -1,16 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:localdatabase/src/model/note_model.dart';
+
+import '../../utils/database_helper.dart';
 
 class EditTaskScreen extends StatefulWidget {
-  const EditTaskScreen({super.key});
+  Note note ;
+   EditTaskScreen({super.key,required this.note});
 
   @override
   State<EditTaskScreen> createState() => _EditTaskScreenState();
 }
 
 class _EditTaskScreenState extends State<EditTaskScreen> {
-
+  DBHelper dbHelper = DBHelper();
   TextEditingController titleTextEditingController = TextEditingController();
   TextEditingController subTitleTextEditingController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    titleTextEditingController.text = widget.note.title.toString();
+    subTitleTextEditingController.text = widget.note.subtitle.toString();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +57,13 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
           SizedBox(
             width: MediaQuery.sizeOf(context).width,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                dbHelper.updatedQuentity(Note(
+                  id:widget.note.id,
+                  title: widget.note.title,
+                  subtitle: widget.note.subtitle
+                ));
+              },
               child: Text("save"),
             ),
           )

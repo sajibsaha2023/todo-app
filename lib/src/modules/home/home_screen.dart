@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:localdatabase/src/modules/home/add_task_screen.dart';
 import 'package:localdatabase/src/modules/home/edit_task_screen.dart';
+import 'package:localdatabase/src/utils/database_helper.dart';
 import '../../data/global_widgets/appbar.dart';
+import '../../model/note_model.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -12,6 +14,27 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  List<Note> datalist = [];
+
+  DBHelper dbHelper = DBHelper();
+
+  getDataItem()async{
+    datalist =  await dbHelper.getCartData();
+  }
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getDataItem();
+
+
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
       home: Scaffold(
         appBar: const AppBarView(),
         body: ListView.builder(
-          itemCount: 10,
+          itemCount: datalist.length,
           shrinkWrap: true,
           // physics: NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
@@ -36,13 +59,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       print("delete");
                     },
                     child: ListTile(
-                      title: Text("here is title"),
-                      subtitle: Text("here is subtitle"),
+                      title: Text("${datalist[index].title}"),
+                      subtitle: Text("${datalist[index].subtitle}"),
                       leading: Icon(Icons.account_box),
                       trailing: InkWell(
                           onTap: (){
+                            Note note = datalist[index];
                             Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => EditTaskScreen()));
+                                MaterialPageRoute(builder: (context) => EditTaskScreen(note:note)));
                           },
                           child: Icon(Icons.edit)),
                     ),

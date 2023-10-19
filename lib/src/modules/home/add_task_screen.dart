@@ -49,9 +49,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             child: ElevatedButton(
               onPressed: () {
                 dbHelper.insertData(Note(
-                    id: 1,
-                    title: "title",
-                    subtitle: "subtitle",
+                    title: titleTextEditingController.text.toString(),
+                    subtitle: subTitleTextEditingController.text.toString(),
                     date: "12/12/12",
                     priority: "high")).then((value) => {
                       print("successfully added to database")
